@@ -1,0 +1,43 @@
+[
+    {
+
+        "id":1,
+        "cuisine":"no",
+        "ingredients": [
+            "<=30",
+            "high",
+            "no",
+            "fair"
+        ]
+    },
+    {
+        "id":2,
+        "cuisine":"no",
+        "ingredients": [
+            "<=30",
+            "high",
+            "no",
+            "excellent"
+        ]
+    },
+    {
+        "id":3,
+        "cuisine":"yes",
+        "ingredients": [
+            "3040",
+            "high",
+            "no",
+            "fair"
+        ]
+    },
+    {
+        "id":4,
+        "cuisine":"yes",
+        "ingredients": [
+            ">40",
+            "medium",
+            "no",
+            "fair"
+        ]
+    }
+]
