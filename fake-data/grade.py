@@ -8,14 +8,12 @@ if len(sys.argv) < 2:
     exit()
 
 submission_file = sys.argv[1]
-print (submission_file)
-
 
 
 same_count = 0
 total_count = 0
 with open('solutions.csv', 'r') as sol:
-    with open('submission.csv', 'r') as sub:
+    with open(submission_file, 'r') as sub:
         for l1 in sol:
             l2 = sub.readline()
 
