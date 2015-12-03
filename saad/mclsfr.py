@@ -7,9 +7,6 @@ import pandas as pd
 train_set = json.load(open("../train.json"))
 test_set = json.load(open("../test.json"))
 
-#train_ingredients = [' '.join(entry['ingredients']) for entry in train_set]
-#test_ingredients = [' '.join(entry['ingredients']) for entry in test_set]
-
 train_ingredients = []
 test_ingredients = []
 train_cuisines = [entry['cuisine'] for entry in train_set]
