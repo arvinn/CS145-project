@@ -95,6 +95,8 @@ def recipe_iterables():
 def index_training_data(client):
     # Index the training data
     count = 0
+    
+    print ("Indexing the data")
     for _ in streaming_bulk(
             client,
             (recipe_iterables()),
@@ -120,6 +122,7 @@ if __name__ == '__main__':
         index_training_data(client)
 
 
+    print("Analyzing: results will be posted in submissions.csv")
     with open('submission.csv', 'w') as sol:
         print('id,cuisine', file=sol)
 
@@ -145,16 +148,55 @@ if __name__ == '__main__':
                         }
                     )
 
+                hits = []
+                for i in range(10):
+                    hits.append(response['hits']['hits'][i])
+
                 #print (json.dumps(response, indent=4))
                 #print (response['hits']['hits'][0])
+                percent_diff_between_first_two_matches = ((1 - float(hits[1]['_score'])/hits[0]['_score']) * 100) 
+                if hits[0]['_type'] != hits[1]['_type'] and percent_diff_between_first_two_matches < 10:  # percent threshold == 10
+                    recipe_id = recipe['id']
+                    if hits[1]['_type'] == hits[2]['_type']:
+                        cuisine = (hits[1]['_type'])                # get the majority, else just get the first one
+                    else:
+                        cuisine = (hits[0]['_type'])
+                else:
+                    recipe_id = recipe['id']
+                    cuisine = (hits[0]['_type'])
 
-                recipe_id = recipe['id']
-                cuisine = (response['hits']['hits'][0]['_type'])
-                print (recipe_id, cuisine, sep=',', file=sol)
+
+                print (recipe_id, cuisine, sep=',', file=sol) # write it to file
+
+
+
+
+
+##############################
+
+
+
+                """
+                print()
+                print ("==============================")
+                print (recipe['id'])
+                print ("1st and 2nd % diff = ", (1 - float(hits[1]['_score'])/hits[0]['_score']) * 100) 
+                print (hits[0]['_type'], hits[0]['_score'])
+                print (hits[1]['_type'], hits[1]['_score'])
+                print (hits[2]['_type'], hits[2]['_score'])
+                print (hits[3]['_type'], hits[3]['_score'])
+                print (hits[4]['_type'], hits[4]['_score'])
+                print (hits[5]['_type'], hits[5]['_score'])
+                print (hits[6]['_type'], hits[6]['_score'])
+                print (hits[7]['_type'], hits[7]['_score'])
+                print (hits[8]['_type'], hits[8]['_score'])
+                print (hits[9]['_type'], hits[9]['_score'])
+                """
+
 
                 count += 1
-                if count % 500 = 0: print (count)
-                #if count == 10: break
+                if count % 500 == 0: print (count)
+                #if count == 100: break   # stop early for debugging
 
 
     print("Done")
