@@ -9,9 +9,12 @@ if(sys.argv[1]=="test"):
 elif(sys.argv[1]!="train"):
     raise Exception("Invalid parameter passed to script")
 
-suffix_ing=True
+suffix_ing=False
 
-f=open("train.json")
+if suffix_ing:
+    f=open("train_suffix.json")
+else:
+     f=open("train.json")
 lines=f.readlines()
 d=""
 for line in lines:
@@ -32,10 +35,6 @@ for entry in pj:
     else:
         classcount[cuisine]=classcount[cuisine]+1
     for ing in ingredients:
-        if suffix_ing:
-            if len(ing.split(" "))>1:
-                print ing
-            ing=ing.split(" ")[-1]
         #map cuisine,ingredient to number of occurrences
         if cuisine not in custoing:
             custoing[cuisine]={}
@@ -57,7 +56,10 @@ for c in classcount:
     classtot=classtot+classcount[c]
 
 if train==False:
-    f=open("test.json")
+    if suffix_ing:
+        f=open("test_suffix.json")
+    else:
+        f=open("test.json")
     lines=f.readlines()
     d=""
     for line in lines:
@@ -74,8 +76,6 @@ for entry in pj:
         currprob=1
         occurr=float(classcount[c]) / float(classtot)
         for ing in ingredients:
-            if suffix_ing:
-                ing=ing.split(" ")[-1]
             if ing in custoing[c]:
                 currprob=currprob*( float(custoing[c][ing]) / float(classcount[c]) )
             else:
@@ -90,6 +90,8 @@ for entry in pj:
 
 if train:
     print "Percentage of correction predictions: "+str(float(correct) / float(classtot))
+    for ing in ingcount:
+        print ing.encode('ascii', 'ignore')
 else:
     print "id,cuisine"
     for id_num in predict:

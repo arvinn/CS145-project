@@ -1,6 +1,6 @@
 import json
 
-f=open("train.json")
+f=open("test.json")
 lines=f.readlines()
 d=""
 for line in lines:
@@ -15,5 +15,5 @@ for entry in pj:
     pj[key]=entry
     key=key+1
 
-with open('train_suffix.json', 'w') as outfile:
+with open('test_opt.json', 'w') as outfile:
         json.dump(pj, outfile, indent=4)

@@ -7,7 +7,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
-train = pd.read_json('train_suffix.json')
+train = pd.read_json('train.json')
 train.head()
 
 #Initalize a CountVectorizer only considering the top 2000 features.
@@ -25,20 +25,14 @@ print(bag_of_words.shape)
 forest = RandomForestClassifier(n_estimators = 500)
 forest = forest.fit( bag_of_words, train["cuisine"] )
 
-print "FAT"
-
 #Now read the test json file in
 test = pd.read_json('test.json')
 test.head()
-
-print "GAT"
 
 #Do the same thing we did with the training set and create a array using the count vectorizer.
 test_ingredients = test['ingredients']
 test_ingredients_words = [' '.join(x) for x in test_ingredients]
 test_ingredients_array = vectorizer.transform(test_ingredients_words).toarray()
-
-print "HAT"
 
 # Use the random forest to make cusine predictions
 result = forest.predict(test_ingredients_array)
