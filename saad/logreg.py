@@ -1,5 +1,5 @@
-#One vs all classifier
-#~77% accuracy
+#Logistic regression
+#~78% accuracy
 
 import json
 from sklearn.feature_extraction.text import CountVectorizer
