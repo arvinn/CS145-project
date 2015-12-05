@@ -1,7 +1,6 @@
 import json
 import sys
-from sklearn import tree
-
+from sklearn import svm
 
 with open("ing_to_id") as ing_to_id:
     ingtoid=json.load(ing_to_id)
@@ -17,7 +16,6 @@ lentrain=len(train_entries)
 lentest=len(test_entries)
 
 mat_train = [[0 for x in range(lening)] for x in range(lentrain)]
-print "allocated matrix"
 
 custoid={}
 idtocus={}
@@ -56,11 +54,12 @@ for entry in test_entries:
     currentry=currentry+1
 
 
-clf=tree.DecisionTreeClassifier()
+clf=svm.LinearSVC(C=0.80, penalty="l2", dual=False)
 clf=clf.fit(mat_train, labels)
 preds=clf.predict(mat_test)
 
 count=0
+print "id,cuisine"
 for entry in test_entries:
     print str(entry["id"])+","+str(idtocus[preds[count]])
     count=count+1
